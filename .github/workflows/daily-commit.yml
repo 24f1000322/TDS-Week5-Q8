@@ -1,10 +1,12 @@
 name: Daily Commit Bot
-
 on:
   schedule:
-    # Runs every day at 09:30 UTC (adjust as needed)
-    - cron: '30 9 * * *'
+    # Runs every day at 4:35 PM IST (11:05 AM UTC)
+    - cron: '5 11 * * *'
   workflow_dispatch:  # allows manual triggering
+
+permissions:
+  contents: write  # Required to push commits
 
 jobs:
   commit_job:
@@ -12,11 +14,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
+        with:
+          fetch-depth: 0  # Fetch all history
+          
       - name: Update timestamp (24f1000322@ds.study.iitm.ac.in)
         run: |
           echo "Last run: $(date -u)" > last_run.txt
-
+          
       - name: Commit and push changes
         run: |
           git config --global user.name "GitHub Action Bot"
